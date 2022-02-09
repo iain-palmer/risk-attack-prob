@@ -1,6 +1,8 @@
 import itertools
+from functools import lru_cache
 
 
+@lru_cache(maxsize=None)
 def evaluate_single_attack(attack_dice, defence_dice):
     """Evaluate a single attack roll"""
     attack_permutations = list(itertools.product(range(1, 7), repeat=attack_dice))
