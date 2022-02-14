@@ -3,8 +3,10 @@ from functools import lru_cache
 
 
 @lru_cache(maxsize=None)
-def evaluate_single_attack(attack_dice, defence_dice):
-    """Evaluate a single attack roll"""
+def evaluate_single_attack(
+    attack_dice: int, defence_dice: int
+) -> tuple[tuple[int, int, float], ...]:
+    """Evaluate a single Risk dice attack roll."""
     attack_permutations = list(itertools.product(range(1, 7), repeat=attack_dice))
     defence_permutations = list(itertools.product(range(1, 7), repeat=defence_dice))
     n_combat_dice = min(attack_dice, defence_dice)
@@ -18,7 +20,10 @@ def evaluate_single_attack(attack_dice, defence_dice):
             attack_wins = [i > j for i, j in zip(attack_sorted, defence_sorted)]
             defence_sorted = sorted(defence)[:n_combat_dice]
             results[sum(attack_wins)] += 1
-    return results, sum(results), cases
+    return tuple(
+        (case[0], case[1], result / sum(results))
+        for case, result in zip(cases, results)
+    )
 
 
 if __name__ == "__main__":
