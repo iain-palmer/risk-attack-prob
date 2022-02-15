@@ -1,7 +1,7 @@
 # risk-attack-prob
 Calculation of attack probabilities for the game 'Risk'.
 
-The modules here calculate probabilities by considering the tree of all possible dice roll permutations and individual attack outcomes.
+The modules here calculate probabilities by considering a directed acyclic graph representing all possible dice roll permutations and individual attack outcomes.
 
 As such, the probabilities calculated using these modules are exact (subject to the limitations of floating point arithmetic).
 
