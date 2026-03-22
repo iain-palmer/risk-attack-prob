@@ -18,7 +18,6 @@ def evaluate_single_attack(
             attack_sorted = sorted(attack, reverse=True)[:n_combat_dice]
             defence_sorted = sorted(defence, reverse=True)[:n_combat_dice]
             attack_wins = [i > j for i, j in zip(attack_sorted, defence_sorted)]
-            defence_sorted = sorted(defence)[:n_combat_dice]
             results[sum(attack_wins)] += 1
     return tuple(
         (case[0], case[1], result / sum(results))
