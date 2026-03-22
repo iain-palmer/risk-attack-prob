@@ -16,6 +16,10 @@ def evaluate_multiple_attack(attack_troops: int, defence_troops: int) -> dict:
         Exactly one of the two counts will be 0 in every key (the loser is
         eliminated). Probabilities across all keys sum to 1.0.
     """
+    if not isinstance(attack_troops, int) or not isinstance(defence_troops, int):
+        raise TypeError("Troop counts must be integers")
+    if attack_troops < 1 or defence_troops < 1:
+        raise ValueError("Troop counts must be at least 1")
     result = {}
     single_roll = evaluate_single_attack(min(attack_troops, 3), min(defence_troops, 2))
     for attackers_lost, defenders_lost, roll_prob in single_roll:

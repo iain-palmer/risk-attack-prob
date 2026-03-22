@@ -17,6 +17,10 @@ def evaluate_single_attack(
         all possible outcomes. attacker_loss and defender_loss are non-positive
         integers representing troop losses for each side.
     """
+    if not isinstance(attack_dice, int) or not isinstance(defence_dice, int):
+        raise TypeError("Dice counts must be integers")
+    if attack_dice < 1 or defence_dice < 1:
+        raise ValueError("Dice counts must be at least 1")
     attack_permutations = list(itertools.product(range(1, 7), repeat=attack_dice))
     defence_permutations = list(itertools.product(range(1, 7), repeat=defence_dice))
     n_combat_dice = min(attack_dice, defence_dice)
