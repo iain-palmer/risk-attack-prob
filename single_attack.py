@@ -6,7 +6,17 @@ from functools import lru_cache
 def evaluate_single_attack(
     attack_dice: int, defence_dice: int
 ) -> tuple[tuple[int, int, float], ...]:
-    """Evaluate a single Risk dice attack roll."""
+    """Evaluate a single Risk dice attack roll.
+
+    Args:
+        attack_dice: Number of attack dice (1–3).
+        defence_dice: Number of defence dice (1–2).
+
+    Returns:
+        A tuple of (attacker_loss, defender_loss, probability) triples covering
+        all possible outcomes. attacker_loss and defender_loss are non-positive
+        integers representing troop losses for each side.
+    """
     attack_permutations = list(itertools.product(range(1, 7), repeat=attack_dice))
     defence_permutations = list(itertools.product(range(1, 7), repeat=defence_dice))
     n_combat_dice = min(attack_dice, defence_dice)
