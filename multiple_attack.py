@@ -3,7 +3,7 @@ from functools import lru_cache
 from single_attack import evaluate_single_attack
 
 
-@lru_cache
+@lru_cache(maxsize=None)
 def evaluate_multiple_attack(attack_troops: int, defence_troops: int) -> dict:
     """Evaluate a Risk battle to it's conclusion."""
     result = {}
