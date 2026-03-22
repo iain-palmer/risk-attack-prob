@@ -3,9 +3,31 @@ from functools import lru_cache
 from single_attack import evaluate_single_attack
 
 
-@lru_cache
+@lru_cache(maxsize=None)
 def evaluate_multiple_attack(attack_troops: int, defence_troops: int) -> dict:
-    """Evaluate a Risk battle to it's conclusion."""
+    """Evaluate a Risk battle to its conclusion.
+
+    Args:
+        attack_troops: Number of attacking troops (>= 1).
+        defence_troops: Number of defending troops (>= 1).
+
+    Returns:
+        A dict mapping (remaining_attackers, remaining_defenders) to probability.
+        Exactly one of the two counts will be 0 in every key (the loser is
+        eliminated). Probabilities across all keys sum to 1.0.
+
+    Raises:
+        TypeError: If either argument is not an integer.
+        ValueError: If either argument is less than 1.
+
+    Example:
+        >>> evaluate_multiple_attack(3, 1)
+        {(3, 0): 0.659..., (2, 0): 0.279..., (1, 0): 0.058..., (0, 0): ...}
+    """
+    if not isinstance(attack_troops, int) or not isinstance(defence_troops, int):
+        raise TypeError("Troop counts must be integers")
+    if attack_troops < 1 or defence_troops < 1:
+        raise ValueError("Troop counts must be at least 1")
     result = {}
     single_roll = evaluate_single_attack(min(attack_troops, 3), min(defence_troops, 2))
     for attackers_lost, defenders_lost, roll_prob in single_roll:
@@ -24,7 +46,23 @@ def evaluate_multiple_attack(attack_troops: int, defence_troops: int) -> dict:
 
 
 def evaluate_attacker_winning(attack_troops: int, defence_troops: int) -> float:
-    """Evaluate the probability of an attacker winning a Risk battle."""
+    """Evaluate the probability of an attacker winning a Risk battle.
+
+    Args:
+        attack_troops: Number of attacking troops (>= 1).
+        defence_troops: Number of defending troops (>= 1).
+
+    Returns:
+        Probability (0.0–1.0) that the attacker eliminates all defenders.
+
+    Raises:
+        TypeError: If either argument is not an integer.
+        ValueError: If either argument is less than 1.
+
+    Example:
+        >>> evaluate_attacker_winning(3, 1)
+        0.659...
+    """
     result = evaluate_multiple_attack(attack_troops, defence_troops)
     attack_win_prob = 0
     for i, j in result.items():
